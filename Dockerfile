@@ -25,7 +25,7 @@ RUN python3 download.py
 
 ADD model.py .
 ADD pytorch_model.py .
-ADD pytorch_model_weights.onnx .
+ADD pytorch_weights.onnx .
 
 EXPOSE 8000
 
