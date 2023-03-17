@@ -28,12 +28,9 @@ def healthcheck(request):
 # Inference POST handler at '/' is called for every http call from Banana
 @server.route('/', methods=["POST"]) 
 def inference(request):
-    try:
-        model_inputs = response.json.loads(request.json)
-    except:
-        model_inputs = request.json
-
-    output = user_src.inference(model_inputs)
+    # print(request.json["input"].split("/")[-1])
+    image = requests.get(request.json["input"])
+    output = user_src.inference(request.json["input"].split("/")[-1] ,image.content, "pytorch_weights.onnx")
 
     return response.json(output)
 

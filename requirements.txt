@@ -1,3 +1,9 @@
 sanic==22.6.2
 transformers
 accelerate
+torch
+onnxruntime
+torchvision
+Pillow
+onnx
+

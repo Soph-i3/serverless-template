@@ -3,8 +3,8 @@
 
 import requests
 
-model_inputs = {'prompt': 'Hello I am a [MASK] model.'}
+inputs = {'input': 'https://raw.githubusercontent.com/MTailorEng/mtailor_mlops_assessment/main/n01440764_tench.jpeg'}
 
-res = requests.post('http://localhost:8000/', json = model_inputs)
+res = requests.post('http://localhost:8000/', json = inputs)
 
 print(res.json())
