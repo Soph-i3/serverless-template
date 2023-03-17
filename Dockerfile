@@ -21,7 +21,11 @@ RUN python3 download.py
 
 
 # Add your custom app code, init() and inference()
-ADD app.py .
+# ADD app.py .
+
+ADD model.py .
+ADD pytorch_model.py .
+ADD pytorch_model_weights.onnx .
 
 EXPOSE 8000
 
