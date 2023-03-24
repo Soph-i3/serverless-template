@@ -42,13 +42,9 @@ def inference(model_inputs):
     predicted_class = np.argmax(output)
 
     # Convert the prediction to a JSON response
-    response = {"class": str(predicted_class)}
+    #response = {"class": str(predicted_class)}
 
-    return {
-        "statusCode": 200,
-        "headers": {"Content-Type": "application/json"},
-        "body": json.dumps(response)
-    }
+    return predicted_class
     
 #     input_image = model_inputs['image']
     
