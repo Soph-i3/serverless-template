@@ -6,6 +6,7 @@
 from sanic import Sanic, response
 import subprocess
 import app as user_src
+import json
 
 # We do the model load-to-GPU step on server startup
 # so the model object is available globally for reuse
@@ -29,7 +30,7 @@ def healthcheck(request):
 @server.route('/', methods=["POST"]) 
 def inference(request):
     try:
-        model_inputs = response.json.loads(request.json)
+        model_inputs = json.loads(request.json)
     except:
         model_inputs = request.json
 

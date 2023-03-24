@@ -19,7 +19,7 @@ def init():
 # Reference your preloaded global model variable here.
 def inference(model_inputs):
         # Get the image data from the request
-    image_data = base64.b64decode(model_inputs["body"])
+    image_data = base64.b64decode(model_inputs)
 
     # Convert the image data to a PIL Image object
     image = Image.open(io.BytesIO(image_data))
