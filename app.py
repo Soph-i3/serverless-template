@@ -16,7 +16,7 @@ def init():
 # Inference is ran for every server call
 # Reference your preloaded global model variable here.
 def inference(model_inputs):
-    input_image = model_inputs
+    input_image = model_inputs['image']
     
     p = Preprocessor()
     img = p.load_image(input_image)
