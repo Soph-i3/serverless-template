@@ -19,7 +19,7 @@ def init():
 # Reference your preloaded global model variable here.
 def inference(model_inputs):
         # Get the image data from the request
-    image_data = base64.b64decode(model_inputs["image"])
+    image_data = base64.b64decode(model_inputs["body"])
 
     # Convert the image data to a PIL Image object
     image = Image.open(io.BytesIO(image_data))
@@ -42,9 +42,9 @@ def inference(model_inputs):
     predicted_class = np.argmax(output)
 
     # Convert the prediction to a JSON response
-    #response = {"class": str(predicted_class)}
+    response = {"class": str(predicted_class)}
 
-    return predicted_class
+    return response
     
 #     input_image = model_inputs['image']
     
