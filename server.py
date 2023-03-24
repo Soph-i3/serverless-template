@@ -31,7 +31,7 @@ def inference(request):
     model_inputs = request
     output = user_src.inference(model_inputs)
 
-    return output
+    return output.json()
 
 
 if __name__ == '__main__':
