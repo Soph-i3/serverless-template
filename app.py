@@ -15,9 +15,13 @@ def init():
 
 # Inference is ran for every server call
 # Reference your preloaded global model variable here.
-def inference(payload):
+def inference(model_inputs):
+    input_image = model_inputs.get('image', None)
+    if input_image is None:
+        return {'message': "No image provided"}
+    
     p = Preprocessor()
-    img = p.load_image(payload)
+    img = p.load_image(input_image)
     pimg = img.preprocess_numpy(img)
     
     
