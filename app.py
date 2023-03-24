@@ -10,12 +10,13 @@ from model import  Model, Preprocessor
 def init():
     global model
 
-    model_file = "/pytorch_weights.onnx"
+    model_file = "pytorch_weights.onnx"
     model = onnxruntime.InferenceSession(model_file)
 
 # Inference is ran for every server call
 # Reference your preloaded global model variable here.
 def inference(model_inputs):
+    
     input_image = model_inputs['image']
     
     p = Preprocessor()
