@@ -4,7 +4,7 @@ import io
 import numpy as np
 import onnxruntime
 from PIL import Image
-from model import Preprocessor
+from model import  Model, Preprocessor
 
 # Load your ONNX model as a global variable here using the variable name "model"
 def init():
@@ -16,16 +16,14 @@ def init():
 # Inference is ran for every server call
 # Reference your preloaded global model variable here.
 def inference(payload):
-    data = json.loads(payload['body'])
-    image_data = data['image']
+    p = Preprocessor()
+    img = p.load_image()
+    pimg = img.preprocess_numpy(payload)
     
-    # Decode image data and preprocess the image
-    img = Image.open(io.BytesIO(base64.b64decode(image_data)))
-    img = Preprocessor.preprocess_numpy(image_data)
+    
     # Run the ONNX model on the image
-    input_name = model.get_inputs()[0].name
-    output_name = model.get_outputs()[0].name
-    result = model.run([output_name], {input_name: img})[0]
+    
+    result = model.run(None,{"input": pimg.unsqueeze(0).numpy()})
     
     # Extract the relevant output values from the result dictionary
     class_idx = np.argmax(result)
