@@ -17,8 +17,8 @@ def init():
 # Reference your preloaded global model variable here.
 def inference(payload):
     p = Preprocessor()
-    img = p.load_image()
-    pimg = img.preprocess_numpy(payload)
+    img = p.load_image(payload)
+    pimg = img.preprocess_numpy(img)
     
     
     # Run the ONNX model on the image

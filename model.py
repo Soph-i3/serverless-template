@@ -6,6 +6,7 @@ from pytorch_model import Classifier, BasicBlock
 import numpy as np
 
 
+
 class Model:
     def __init__(self, image_data, onnx_file):
         self.image_file = image_data[0]
