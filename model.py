@@ -45,4 +45,4 @@ class Preprocessor:
         img = to_tensor(img)
         img = normalize(img)
         
-        return img 
+        return self.image_file, img 
