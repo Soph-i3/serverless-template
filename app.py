@@ -7,6 +7,7 @@ from PIL import Image
 import torchvision.transforms as transforms
 from model import  Model, Preprocessor
 
+
 # Load your ONNX model as a global variable here using the variable name "model"
 def init():
     global model
@@ -23,28 +24,20 @@ def inference(model_inputs):
 
     # Convert the image data to a PIL Image object
     image = Image.open(io.BytesIO(image_data))
-    transform = transforms.Compose([
-        transforms.Resize(256),
-        transforms.CenterCrop(224),
-        transforms.ToTensor(),
-        transforms.Normalize(
-            mean=[0.485, 0.456, 0.406],
-            std=[0.229, 0.224, 0.225]
-        )
-    ])
+    
     # Apply the image transform and convert to a numpy array
-    image_tensor = transform(image).unsqueeze(0).numpy()
+    image = Preprocessor.preprocess_numpy(image).unsqueeze(0).numpy()
 
     # Use the ONNX model to make a prediction
     input_name = model.get_inputs()[0].name
-    output_name = model.get_outputs()[0].name
-    output = model.run([output_name], {input_name: image_tensor})[0]
+    #output_name = model.get_outputs()[0].name
+    output = model.run(None, {input_name: image})[0]
     predicted_class = np.argmax(output)
 
     # Convert the prediction to a JSON response
-    response = {"class": str(predicted_class)}
+    #response = {"class": str(predicted_class)}
 
-    return response
+    return predicted_class
     
 #     input_image = model_inputs['image']
     
