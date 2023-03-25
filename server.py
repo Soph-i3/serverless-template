@@ -29,12 +29,11 @@ def healthcheck(request):
 # Inference POST handler at '/' is called for every http call from Banana
 @server.route('/', methods=["POST"]) 
 def inference(request):
-    # try:
-    #     model_inputs = json.loads(request.json)
-    # except:
-    #     model_inputs = request.json
-    request_data = json.loads(request.data)
-    model_inputs = request_data['model_inputs']
+    try:
+        model_inputs = response.json.loads(request.json)
+    except:
+        model_inputs = request.json
+
     output = user_src.inference(model_inputs)
 
     return response.json(output)
