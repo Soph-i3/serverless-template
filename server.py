@@ -34,7 +34,7 @@ def inference(request):
     # except:
     #     model_inputs = request.json
     request_data = json.loads(request.data)
-    model_inputs = request_data['model_input']
+    model_inputs = request_data['model_inputs']
     output = user_src.inference(model_inputs)
 
     return response.json(output)
