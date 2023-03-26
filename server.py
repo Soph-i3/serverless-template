@@ -6,11 +6,10 @@
 from sanic import Sanic, response
 import subprocess
 import app as user_src
-import requests
 
 # We do the model load-to-GPU step on server startup
 # so the model object is available globally for reuse
-# user_src.init()
+user_src.init()
 
 # Create the http server app
 server = Sanic("my_app")
@@ -29,10 +28,15 @@ def healthcheck(request):
 # Inference POST handler at '/' is called for every http call from Banana
 @server.route('/', methods=["POST"]) 
 def inference(request):
-    image = requests.get(request.json["input"])
-    output = user_src.inference(request.json["input"].split("/")[-1] ,image.content, "pytorch_model_weights.onnx")
+    try:
+        model_inputs = response.json.loads(request.json)
+    except:
+        model_inputs = request.json
+
+    output = user_src.inference(model_inputs)
 
     return response.json(output)
+
 
 if __name__ == '__main__':
     server.run(host='0.0.0.0', port=8000, workers=1)

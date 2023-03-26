@@ -18,30 +18,22 @@ def init():
 
 # Inference is ran for every server call
 # Reference your preloaded global model variable here.
-def inference(image_file, image_bytes, onnx_file):
-    p = Preprocessor(image_bytes)
-    pimg = p.preprocess_numpy(p.load_image())
-    pimg = tuple([image_file, pimg[1]])
+def inference(model_inputs):
+    print(model_inputs)
+    # Convert the image data to a PIL Image object
+    image = Image.open(io.BytesIO(model_inputs))
     
-    m = Model(pimg, onnx_file)
+    # Apply the image transform and convert to a numpy array
+    image = Preprocessor.preprocess_numpy(image).unsqueeze(0).numpy()
 
-    # Return the results as a dictionary
-    return {"label": m.load_and_predict()[0], "class": str(m.load_and_predict()[1])}
+    # Use the ONNX model to make a prediction
+    input_name = model.get_inputs()[0].name
+    #output_name = model.get_outputs()[0].name
+    output = model.run(None, {input_name: image})[0]
+    predicted_class = np.argmax(output)
 
-    # # Convert the image data to a PIL Image object
-    # image = Image.open(io.BytesIO(model_inputs))
-    
-    # # Apply the image transform and convert to a numpy array
-    # image = Preprocessor.preprocess_numpy(image).unsqueeze(0).numpy()
+    # Convert the prediction to a JSON response
+    response = {"class": str(predicted_class)}
 
-    # # Use the ONNX model to make a prediction
-    # input_name = model.get_inputs()[0].name
-    # #output_name = model.get_outputs()[0].name
-    # output = model.run(None, {input_name: image})[0]
-    # predicted_class = np.argmax(output)
-
-    # # Convert the prediction to a JSON response
-    # response = {"class": str(predicted_class)}
-
-    # return response
+    return response
     
