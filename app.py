@@ -23,7 +23,16 @@ def inference(model_inputs):
     image = Image.open(io.BytesIO(model_inputs['input']))
     
     # Apply the image transform and convert to a numpy array
-    image = Preprocessor.preprocess_numpy(image).unsqueeze(0).numpy()
+    resize = transforms.Resize((224, 224))
+    crop = transforms.CenterCrop((224, 224))
+    to_tensor = transforms.ToTensor()
+    normalize = transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+
+    image = resize(image)
+    image = crop(image)
+    image = to_tensor(image)
+    image = normalize(image)
+    
 
     # Use the ONNX model to make a prediction
     input_name = model.get_inputs()[0].name
