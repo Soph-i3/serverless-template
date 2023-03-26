@@ -2,7 +2,7 @@ import io
 import numpy as np
 import onnxruntime
 from PIL import Image
-from model import  Model, Preprocessor
+from model import  Preprocessor
 
 
 # Load your ONNX model as a global variable here using the variable name "model"
