@@ -5,6 +5,7 @@ import onnxruntime
 from PIL import Image
 from model import  Model , Preprocessor
 from torchvision import transforms
+import base64
 
 
 # Load your ONNX model as a global variable here using the variable name "model"
@@ -20,9 +21,12 @@ def init():
 
 def inference(model_inputs):
     # Convert the image data to a PIL Image object
-    image = Image.open(io.BytesIO(model_inputs['input']))
+    image_bytes = base64.b64decode(model_inputs['input'].encode('utf-8'))
+    image = Image.open(io.BytesIO(image_bytes))
     
     # Apply the image transform and convert to a numpy array
+    if image.mode != 'RGB':
+        image = image.convert('RGB')
     resize = transforms.Resize((224, 224))
     crop = transforms.CenterCrop((224, 224))
     to_tensor = transforms.ToTensor()
