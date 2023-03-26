@@ -16,6 +16,10 @@ def init():
 # Inference is ran for every server call
 # Reference your preloaded global model variable here.
 def inference(model_inputs):
+    # Check if model_inputs is a dictionary
+    if not isinstance(model_inputs, dict):
+        return "incorrect"
+
     # Convert the image data to a PIL Image object
     image = Image.open(io.BytesIO(model_inputs['image_data']))
     
@@ -31,5 +35,6 @@ def inference(model_inputs):
     # Convert the prediction to a JSON response
     response = {"class": str(predicted_class)}
 
-    return response
+    return predicted_class
+
     
