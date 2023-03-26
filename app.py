@@ -1,10 +1,7 @@
-import json
-import base64
 import io
 import numpy as np
 import onnxruntime
 from PIL import Image
-import torchvision.transforms as transforms
 from model import  Model, Preprocessor
 
 
@@ -19,9 +16,8 @@ def init():
 # Inference is ran for every server call
 # Reference your preloaded global model variable here.
 def inference(model_inputs):
-    print(model_inputs)
     # Convert the image data to a PIL Image object
-    image = Image.open(io.BytesIO(model_inputs))
+    image = Image.open(io.BytesIO(model_inputs['image_data']))
     
     # Apply the image transform and convert to a numpy array
     image = Preprocessor.preprocess_numpy(image).unsqueeze(0).numpy()
